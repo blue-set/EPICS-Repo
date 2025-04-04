@@ -1,0 +1,30 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Hey", "How are you", "Greetings"],
+      "responses": ["Hello! How can I assist you with your health today?"]
+    },
+    {
+      "tag": "farewell",
+      "patterns": ["Bye", "Goodbye", "See you", "Take care"],
+      "responses": ["Goodbye! Take care of your health."]
+    },
+    {
+      "tag": "headache",
+      "patterns": ["I have a headache", "My head hurts", "Headache", "Migraine"],
+      "responses": ["For headaches, try resting in a dark room, staying hydrated, and taking over-the-counter pain relievers as directed. If your headache is severe or persists, consider consulting a healthcare professional."]
+    },
+    {
+      "tag": "fever",
+      "patterns": ["I have a fever", "Temperature", "Feel hot", "High fever"],
+      "responses": ["For fever, make sure to stay hydrated, get plenty of rest, and take fever reducers like acetaminophen if needed. If your fever is very high (over 103°F/39.4°C) or lasts more than three days, please seek medical attention."]
+    },
+    {
+      "tag": "cold",
+      "patterns": ["I have a cold", "Runny nose", "Stuffy nose", "Sneezing", "Sore throat"],
+      "responses": ["For a cold, get plenty of rest, stay hydrated, and consider over-the-counter cold medications for symptom relief. Warm liquids and throat lozenges may help with a sore throat. If symptoms worsen or last more than 10 days, consult a healthcare professional."]
+    }
+  ]
+}
+

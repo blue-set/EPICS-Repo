@@ -1,0 +1,20 @@
+/* Add this to your CSS file */
+.server-status-indicator {
+  padding: 10px 15px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.server-status-indicator.error {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #d32f2f;
+}
+
+.server-status-indicator .icon {
+  font-size: 1.2rem;
+}

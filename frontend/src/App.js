@@ -5,12 +5,13 @@ import ChatHeader from './components/ChatHeader';
 import MessageList from './components/MessageList';
 import ChatInput from './components/ChatInput';
 import SidebarToggle from './components/SidebarToggle';
-import { fetchBotResponse } from './services/api';
+import { fetchBotResponse, checkServerHealth } from './services/api';
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [serverConnected, setServerConnected] = useState(true);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -32,6 +33,25 @@ function App() {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        await checkServerHealth();
+        setServerConnected(true);
+      } catch (error) {
+        console.error('Server connection check failed:', error);
+        setServerConnected(false);
+      }
+    };
+    
+    checkConnection();
+    
+    // Periodically check server connection
+    const intervalId = setInterval(checkConnection, 60000); // Check every minute
+    
+    return () => clearInterval(intervalId);
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -52,6 +72,11 @@ function App() {
     setError(null);
     
     try {
+      // First check if server is reachable
+      if (!serverConnected) {
+        throw new Error('Server connection failed. Please check if the server is running and accessible.');
+      }
+      
       // Call API to get bot response
       const response = await fetchBotResponse(message);
       
@@ -69,9 +94,16 @@ function App() {
       };
       
       setMessages(prev => [...prev, botMessage]);
+      setServerConnected(true); // If we got here, server is connected
     } catch (error) {
       console.error('Error getting response:', error);
       setError(error.message);
+      
+      // Update server connection status if it's a connection error
+      if (error.message.includes('Server connection failed') || 
+          error.message === 'Failed to fetch') {
+        setServerConnected(false);
+      }
       
       // Add error message
       const errorMessage = {
@@ -98,6 +130,18 @@ function App() {
       }
     ]);
     setError(null);
+  };
+
+  const renderServerStatus = () => {
+    if (!serverConnected) {
+      return (
+        <div className="server-status-indicator error">
+          <span className="icon">⚠️</span>
+          Server connection failed. The backend might be down or unreachable.
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -131,8 +175,9 @@ function App() {
       
       <div className="chat-container">
         <ChatHeader />
+        {renderServerStatus()}
         <MessageList messages={messages} loading={loading} messagesEndRef={messagesEndRef} />
-        <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
+        <ChatInput onSendMessage={handleSendMessage} disabled={loading || !serverConnected} />
         
         {error && (
           <div className="error-notification">
@@ -144,4 +189,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

@@ -9,6 +9,11 @@ import nltk
 from dotenv import load_dotenv
 from groq import Groq
 
+# Add NLTK download at the beginning of the file
+import nltk
+# Make sure punkt is downloaded before any imports that might use it
+nltk.download('punkt')
+
 # Add parent directory to path to import existing modules
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_dir)
@@ -68,4 +73,4 @@ def process_message():
 
 if __name__ == "__main__":
     result = process_message()
-    print(result) 
+    print(result)

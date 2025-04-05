@@ -13,9 +13,8 @@ with open("intents.json",'r',encoding='cp850') as f:
     data = json.load(f)
 
 import tflearn
-import nltk
-nltk.download('punkt')
-nltk.download('punkt_tab')
+# Remove the duplicate and incorrect punkt_tab downloads
+# No need to download punkt again, and punkt_tab doesn't exist
 words = []
 labels = []
 docs_x = []
@@ -111,4 +110,4 @@ def chat():
             color_index = i % len(colors)
             print(f'\033[1;{colors[color_index]}m {response_list[i]:<12s}\n')
             
-chat()  
+chat()

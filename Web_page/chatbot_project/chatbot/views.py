@@ -11,6 +11,8 @@ from nltk.stem.lancaster import LancasterStemmer
 from django.shortcuts import render
 from django.http import JsonResponse
 
+nltk.download('punkt')
+
 # Initialize the stemmer
 stemmer = LancasterStemmer()
 

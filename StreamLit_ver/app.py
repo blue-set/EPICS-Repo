@@ -11,11 +11,8 @@ import numpy as np
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
-# Download required NLTK data
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
+# Download required NLTK data - ensure punkt is downloaded
+nltk.download('punkt')
 
 # Load environment variables
 load_dotenv()
